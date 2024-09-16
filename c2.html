@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page with Posts</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts for Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+            font-family: 'Poppins', sans-serif;
+        }
+        .card {
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            background-color: white;
+        }
+        .profile-img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        .profile-img:hover {
+            transform: scale(1.05);
+        }
+        .card-header {
+            background-color: #4a90e2;
+            color: white;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            text-align: center;
+            padding: 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            position: relative;
+        }
+        .card-header:before {
+            content: "";
+            position: absolute;
+            width: 50px;
+            height: 5px;
+            background-color: white;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .text-center img {
+            margin-bottom: 20px;
+        }
+        .post-card {
+            background-color: #f8f9fa;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .post-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        .post-card .like-share-comment {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .post-card .like-share-comment button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+        .comment-section {
+            margin-top: 20px;
+        }
+        .comment-section input {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .comment {
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+        .comment p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Profile</h3>
+                </div>
+                <div class="card-body p-4 text-center">
+                    <img src="path/to/profile/image.jpg" alt="Profile Image" class="profile-img mb-4">
+                    <h4>John Doe</h4>
+                    <p><i class="fas fa-envelope"></i> john.doe@example.com</p>
+                    <p><i class="fas fa-phone"></i> 1234567890</p>
+                    <p><i class="fas fa-home"></i> 1234 Street Name, City</p>
+                    <button class="btn btn-custom btn-lg" onclick="loadPosts()">View Posts</button>
+                </div>
+            </div>
+
+            <!-- Posts Section -->
+            <div id="posts-section" class="d-none">
+                <!-- Posts will be dynamically loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap 5 JS and dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Script to load posts dynamically -->
+<script>
+    function loadPosts() {
+        // Sample posts data with images
+        const posts = [
+            { 
+                title: "First Post", 
+                content: "This is the content of the first post.",
+                image: "path/to/image1.jpg"
+            },
+            { 
+                title: "Second Post", 
+                content: "Here is some content for the second post.",
+                image: "path/to/image2.jpg"
+            },
+            { 
+                title: "Third Post", 
+                content: "And this is another post made by the user.",
+                image: "path/to/image3.jpg"
+            }
+        ];
+
+        // Get the posts section and clear any existing content
+        const postsSection = document.getElementById('posts-section');
+        postsSection.innerHTML = '';
+
+        // Loop through each post and append to the posts section
+        posts.forEach((post, index) => {
+            const postCard = document.createElement('div');
+            postCard.classList.add('post-card');
+
+            const postTitle = document.createElement('h4');
+            postTitle.textContent = post.title;
+
+            const postContent = document.createElement('p');
+            postContent.textContent = post.content;
+
+            const postImage = document.createElement('img');
+            postImage.src = post.image;
+            postImage.alt = "Post Image";
+
+            const likeShareComment = document.createElement('div');
+            likeShareComment.classList.add('like-share-comment');
+
+            // Like buttons with emojis
+            const likeButtons = document.createElement('div');
+            likeButtons.innerHTML = `
+                <button onclick="reactToPost(event, '🔥')"><i class="fas fa-fire"></i> 🔥</button>
+                <button onclick="reactToPost(event, '😂')"><i class="fas fa-laugh"></i> 😂</button>
+                <button onclick="reactToPost(event, '❤️')"><i class="fas fa-heart"></i> ❤️</button>
+            `;
+
+            // Share button
+            const shareButton = document.createElement('button');
+            shareButton.innerHTML = '<i class="fas fa-share"></i> Share';
+
+            const commentSection = document.createElement('div');
+            commentSection.classList.add('comment-section');
+
+            const commentInput = document.createElement('input');
+            commentInput.type = 'text';
+            commentInput.placeholder = 'Add a comment...';
+
+            const commentButton = document.createElement('button');
+            commentButton.classList.add('btn', 'btn-custom');
+            commentButton.textContent = 'Comment';
+            commentButton.onclick = () => {
+                const comment = document.createElement('div');
+                comment.classList.add('comment');
+                comment.innerHTML = `<p>${commentInput.value}</p>`;
+                commentSection.appendChild(comment);
+                commentInput.value = ''; // Clear input field after adding comment
+            };
+
+            likeShareComment.appendChild(likeButtons);
+            likeShareComment.appendChild(shareButton);
+
+            postCard.appendChild(postTitle);
+            postCard.appendChild(postContent);
+            postCard.appendChild(postImage);
+            postCard.appendChild(likeShareComment);
+            postCard.appendChild(commentInput);
+            postCard.appendChild(commentButton);
+            postCard.appendChild(commentSection);
+
+            postsSection.appendChild(postCard);
+        });
+
+        // Show the posts section
+        postsSection.classList.remove('d-none');
+    }
+
+    function reactToPost(event, emoji) {
+        const button = event.currentTarget;
+        button.innerHTML = `<i class="fas fa-thumbs-up"></i> ${emoji}`;
+    }
+</script>
+
+</body>
+</html>
